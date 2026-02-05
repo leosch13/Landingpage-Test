@@ -7,8 +7,10 @@ import ProblemSlider from '../components/ProblemSlider';
 import ExpertiseSection from '../components/ExpertiseSection';
 import ExpertSlider from '../components/ExpertSlider';
 import OfferSection from '../components/OfferSection';
+import StrategicSystemsSection from '../components/StrategicSystemsSection';
 import VideoSection from '../components/VideoSection';
 import CalendarSection from '../components/CalendarSection';
+import FAQSection from '../components/FAQSection';
 
 interface HomePageProps {
   onCtaClick: () => void;
@@ -97,9 +99,13 @@ const HomePage: React.FC<HomePageProps> = ({ onCtaClick }) => {
 
         <OfferSection onCtaClick={onCtaClick} />
 
+        <StrategicSystemsSection />
+
         <VideoSection />
 
         <CalendarSection />
+
+        <FAQSection />
       </main>
 
       <footer className="py-16 border-t border-white/5 bg-[#000000] text-white/20 text-[10px] font-black uppercase tracking-[0.2em]">
