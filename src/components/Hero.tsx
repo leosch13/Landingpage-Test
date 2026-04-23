@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import { ShinyButton } from './ui/ShinyButton';
+import heroBg from '../assets/Hero_Hintergrundbild.png';
 
 interface HeroProps {
   onCtaClick: () => void;
@@ -87,7 +88,7 @@ const Hero: React.FC<HeroProps> = ({ onCtaClick }) => {
           <div
             className="w-full h-full bg-center bg-no-repeat bg-cover"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=2000&auto=format&fit=crop')`,
+              backgroundImage: `url('${heroBg}')`,
               maskImage: 'radial-gradient(ellipse 70% 60% at center, black 0%, rgba(0,0,0,0.8) 20%, transparent 75%)',
               WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at center, black 0%, rgba(0,0,0,0.8) 20%, transparent 75%)'
             }}
@@ -144,7 +145,7 @@ const Hero: React.FC<HeroProps> = ({ onCtaClick }) => {
             <div className={`absolute inset-0 w-full h-full pointer-events-none transition-all duration-1000 ${isPlaying ? 'opacity-100' : 'opacity-40'}`}>
               <iframe
                 ref={iframeRef}
-                src="https://player.vimeo.com/video/1158533673?autoplay=1&muted=1&loop=1&controls=0&api=1"
+                src="https://player.vimeo.com/video/1164461592?autoplay=1&muted=1&loop=1&controls=0&api=1"
                 frameBorder="0"
                 allow="autoplay; fullscreen"
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[101%] h-[101%]"

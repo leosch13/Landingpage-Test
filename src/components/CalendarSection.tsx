@@ -1,90 +1,73 @@
-
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 const CalendarSection: React.FC = () => {
-  const widgetRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const initCalendly = () => {
-      if ((window as any).Calendly && widgetRef.current) {
-        // Leeren des Containers vor Neu-Initialisierung (verhindert Duplikate bei Re-Renders)
-        widgetRef.current.innerHTML = '';
-        
-        (window as any).Calendly.initInlineWidget({
-          // hide_event_type_details=0 zeigt das Profilbild und den Text aus Calendly an
-          // hide_gdpr_banner=1 unterdrückt den Cookie Banner
-          url: 'https://calendly.com/ingo-schwaiger/erstgespraech-buchen?hide_gdpr_banner=1&hide_event_type_details=0&primary_color=ff3d00&text_color=1a202c',
-          parentElement: widgetRef.current,
-          prefill: {},
-          utm: {}
-        });
-      }
-    };
-
-    if (!(window as any).Calendly) {
-      const script = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
-      if (script) {
-        script.addEventListener('load', initCalendly);
-      }
-    } else {
-      initCalendly();
-    }
-  }, []);
-
   return (
-    <section id="booking" className="py-24 bg-[#f3f4f8] relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-indigo-500/5 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-purple-500/5 blur-[120px] rounded-full"></div>
-      </div>
+    <section id="cal-handbuch" className="py-16 md:py-24 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-center">
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="bg-white rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.08)] border border-black/[0.02] overflow-hidden min-h-[750px]">
-          
-          {/* Header für die Sektion */}
-          <div className="p-10 md:p-16 border-b border-black/[0.05] bg-white flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-5xl font-extrabold text-[#1a202c] leading-[1.1] tracking-tight mb-4">
-                Let's Build Your <span className="text-[#ff3d00]">Strategy</span>
-              </h2>
-              <p className="text-[#718096] text-lg font-medium">
-                Wähle einen Termin für dein kostenloses Erstgespräch. Wir analysieren dein Potenzial für das Share-Deal Modell.
-              </p>
-            </div>
-            
-            <div className="hidden md:flex space-x-3">
-              {[
-                { name: 'FB', icon: 'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z' },
-                { name: 'IG', icon: 'M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01M7.5 21h9a4.5 4.5 0 004.5-4.5v-9A4.5 4.5 0 0016.5 3h-9A4.5 4.5 0 007.5 21z' },
-                { name: 'IN', icon: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z' }
-              ].map((social) => (
-                <div key={social.name} className="w-11 h-11 rounded-full border border-black/[0.06] flex items-center justify-center text-[#718096] hover:text-[#1a202c] hover:border-[#1a202c] transition-all cursor-pointer">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={social.icon} />
-                  </svg>
-                </div>
-              ))}
-            </div>
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-black mb-4">
+            Buche dir jetzt dein Kennenlerngespräch
+          </h2>
+        </div>
+
+        {/* Calendly Container (Iframe Implementation) */}
+        <div className="calendly-wrapper w-full px-4" style={{ maxWidth: '1060px', margin: '0 auto' }}>
+
+          <div
+            className="w-full relative"
+            style={{ minWidth: '320px', height: '700px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', background: '#ffffff', overflow: 'hidden' }}
+          >
+            <iframe
+              src="https://calendly.com/ingo-schwaiger/erstgespraech-buchen?hide_gdpr_banner=1&hide_event_type_details=0&primary_color=ff3d00&text_color=1a202c&embed_domain=landingpage-test.com&embed_type=Inline"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              title="Calendly Scheduling Page"
+              style={{ minHeight: '700px' }}
+            ></iframe>
           </div>
 
-          {/* Full Width Calendly Widget - Hier zeigt Calendly seine eigene Sidebar links an */}
-          <div className="p-4 md:p-8 bg-white relative">
-            <div 
-              ref={widgetRef} 
-              className="calendly-inline-widget w-full rounded-2xl overflow-hidden" 
-              style={{ minWidth: '320px', height: '750px', background: '#ffffff' }}
-            >
-              {/* Calendly wird hier hinein gerendert und zeigt seine nativen Details (Bild/Text) */}
-            </div>
-
-            <p className="text-[11px] text-[#718096] mt-8 text-center font-medium leading-relaxed">
-              Mit der Buchung akzeptierst du unsere 
-              <a href="#" className="text-[#ff3d00] underline ml-1 hover:text-[#1a202c] transition-colors">Datenschutzerklärung</a>.
-              <br />Wir nutzen Calendly zur professionellen Terminverwaltung.
-            </p>
-          </div>
+          <p style={{ fontSize: '12px', color: '#718096', marginTop: '16px', textAlign: 'center' }}>
+            Mit der Buchung akzeptierst du unsere
+            <a href="/datenschutz" style={{ color: '#ff3d00', textDecoration: 'underline', marginLeft: '4px' }}>Datenschutzerklärung</a>.
+            Wir nutzen Calendly zur Terminverwaltung.
+          </p>
 
         </div>
+
+        <div className="mt-16 w-full flex flex-col items-center">
+          <div className="text-center mb-8">
+            <div className="text-lg text-black/60 font-medium">
+              Erfahrung aus über <span className="text-black font-bold">250 Mio. Umsatz</span> aus Projekten wie:
+            </div>
+          </div>
+
+          <div className="w-full overflow-hidden relative">
+            <div className="flex w-max animate-scroll">
+              <div className="flex items-center gap-12 px-6">
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2fae79478284a81ca_Frame%202087327037.avif" alt="Logo 1" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac26f7f2433d563b1d9_Frame%202087327037-1.avif" alt="Logo 2" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2225ba5828d3e0855_Frame%202087327036.avif" alt="Logo 3" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2e8507cbdd0d4c42d_Frame%202087327036-1.avif" alt="Logo 4" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2e4bfda8858dddf02_Frame%202087327036-2.avif" alt="Logo 5" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac25ad79e1580bb2d7e_Frame%202087327037-2.avif" alt="Logo 6" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+              </div>
+              <div className="flex items-center gap-12 px-6">
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2fae79478284a81ca_Frame%202087327037.avif" alt="Logo 1" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac26f7f2433d563b1d9_Frame%202087327037-1.avif" alt="Logo 2" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2225ba5828d3e0855_Frame%202087327036.avif" alt="Logo 3" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2e8507cbdd0d4c42d_Frame%202087327036-1.avif" alt="Logo 4" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac2e4bfda8858dddf02_Frame%202087327036-2.avif" alt="Logo 5" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/68348ac25ad79e1580bb2d7e_Frame%202087327037-2.avif" alt="Logo 6" className="h-8 md:h-12 w-auto object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+              </div>
+            </div>
+
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent"></div>
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent"></div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

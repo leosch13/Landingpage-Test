@@ -12,6 +12,7 @@ import VideoSection from '../components/VideoSection';
 import CalendarSection from '../components/CalendarSection';
 import { Testimonials } from '../components/ui/unique-testimonial';
 import FAQSection from '../components/FAQSection';
+import { Footer } from '../components/Footer';
 
 interface HomePageProps {
   onCtaClick: () => void;
@@ -111,16 +112,15 @@ const HomePage: React.FC<HomePageProps> = ({ onCtaClick }) => {
         <FAQSection />
       </main>
 
-      <footer className="py-16 border-t border-white/5 bg-[#000000] text-white/20 text-[10px] font-black uppercase tracking-[0.2em]">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
-          <div>© 2024 Fullstack Marketer. Premium Excellence.</div>
-          <div className="flex space-x-10">
-            <a href="#" className="hover:text-white transition-colors">Impressum</a>
-            <a href="#" className="hover:text-white transition-colors">Datenschutz</a>
-            <a href="#" className="hover:text-white transition-colors">AGB</a>
-          </div>
-        </div>
-      </footer>
+      <Footer
+        brandName="Fullstack Marketer"
+        brandDescription="Premium Excellence in Marketing."
+        navLinks={[
+          { label: "Impressum", href: "#" },
+          { label: "Datenschutz", href: "#" },
+          { label: "AGB", href: "#" }
+        ]}
+      />
     </div>
   );
 };

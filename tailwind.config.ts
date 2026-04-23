@@ -21,6 +21,10 @@ export default {
         sans: ['"SF Pro Text"', 'Inter', 'sans-serif'],
         display: ['"SF Pro Display"', 'sans-serif'],
       },
+      borderRadius: {
+        '4xl': '2rem',
+        '6xl': '3rem',
+      },
       animation: {
         'scroll': 'scroll-left 30s linear infinite',
         'flow': 'flow 4s infinite linear',

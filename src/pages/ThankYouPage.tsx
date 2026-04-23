@@ -23,7 +23,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onHomeClick }) => {
         <SuccessBanner />
       </div>
 
-      <main className="pt-24 md:pt-28">
+      <main className="pt-20 md:pt-24">
         <HeroSection />
         <VideoSection />
         <BookingSection />

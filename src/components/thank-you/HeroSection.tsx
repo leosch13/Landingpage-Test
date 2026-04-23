@@ -8,7 +8,7 @@ import { ProgressCard } from './ProgressCard';
 
 export const HeroSection: React.FC = () => {
     return (
-        <section className="relative w-full max-w-4xl mx-auto px-4 py-8 md:py-16 flex flex-col items-center text-center">
+        <section className="relative w-full max-w-4xl mx-auto px-4 pt-0 pb-8 md:pb-16 flex flex-col items-center text-center">
 
             {/* Progress Card Section - Replaces the linear segmented bar */}
             <motion.div
@@ -32,9 +32,9 @@ export const HeroSection: React.FC = () => {
                 className="space-y-6"
             >
                 <div>
-                    <span className="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-sm text-white/60 mb-4 backdrop-blur-sm">
+                    <div className="text-sm md:text-base text-white/60 font-medium tracking-tight mb-4">
                         Die letzten zwei Schritte...
-                    </span>
+                    </div>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-2">
                         Schritt 1: Hol dir das <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50 font-serif italic">
@@ -71,7 +71,7 @@ export const HeroSection: React.FC = () => {
                         rel="noopener noreferrer"
                         className="inline-block w-full max-w-sm"
                     >
-                        <ShinyButton className="w-full !bg-[#25D366] !text-black !border-none hover:!bg-[#128C7E] group">
+                        <ShinyButton className="w-full group">
                             <span className="flex items-center justify-center gap-3 text-lg font-bold">
                                 <MessageCircle className="w-6 h-6 fill-current" />
                                 Weiter zu WhatsApp

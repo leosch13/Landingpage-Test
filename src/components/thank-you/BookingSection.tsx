@@ -1,16 +1,42 @@
-'use client';
-
-import React, { useEffect } from 'react';
+// BookingSection.tsx
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { getCalApi } from "@calcom/embed-react";
 
 export const BookingSection: React.FC = () => {
+    const widgetRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        (async function () {
-            const cal = await getCalApi({ "namespace": "sdlp-erstgespraech" });
-            cal("ui", { "theme": "dark", "cssVarsPerTheme": { "dark": { "cal-brand": "#C1FE00" } }, "hideEventTypeDetails": false, "layout": "month_view" });
-        })();
+        const initCalendly = () => {
+            if ((window as any).Calendly && widgetRef.current) {
+                // Clear container to prevent duplicates
+                widgetRef.current.innerHTML = '';
+
+                (window as any).Calendly.initInlineWidget({
+                    // Use the same event type url as Main Website
+                    // Adjusted for Dark Theme: text_color=ffffff, background_color=1a1a1a (or transparent if supported via styling, but passed here for iframe content)
+                    url: 'https://calendly.com/ingo-schwaiger/erstgespraech-buchen?hide_gdpr_banner=1&hide_event_type_details=0&primary_color=ff3d00&text_color=ffffff&background_color=1a1a1a',
+                    parentElement: widgetRef.current,
+                    prefill: {},
+                    utm: {}
+                });
+            }
+        };
+
+        if (!(window as any).Calendly) {
+            // Check if script is already present (e.g. from Main Website if shared, or add it)
+            // Since this is a separate page/app context potentially, we should ensure script is loaded.
+            // The Main Website checks for existing script. We should do the same or add it if missing.
+            let script = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
+            if (!script) {
+                script = document.createElement('script');
+                script.setAttribute('src', 'https://assets.calendly.com/assets/external/widget.js');
+                script.setAttribute('async', 'true');
+                document.head.appendChild(script);
+            }
+            script.addEventListener('load', initCalendly);
+        } else {
+            initCalendly();
+        }
     }, []);
 
     return (
@@ -33,12 +59,14 @@ export const BookingSection: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="w-full h-[600px] md:h-[700px] bg-white/5 rounded-3xl border border-white/10 overflow-hidden backdrop-blur-sm"
+                className="w-full bg-white/5 rounded-3xl border border-white/10 overflow-hidden backdrop-blur-sm"
             >
-                <iframe
-                    src="https://cal.com/fullstack-marketer/sdlp-erstgespraech?embed=true"
-                    style={{ width: "100%", height: "100%", border: "none" }}
-                ></iframe>
+                {/* Calendly Inline Widget Container */}
+                <div
+                    ref={widgetRef}
+                    className="calendly-inline-widget w-full"
+                    style={{ minWidth: '320px', height: '700px' }}
+                />
             </motion.div>
 
             <div className="mt-20 text-center">
